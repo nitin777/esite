@@ -4,17 +4,12 @@ class TodosController < ApplicationController
   def index
 	#completed todo task
 	if params[:id]
-		@o_make_completed = Todo.find(params[:id])
-		@o_make_completed.status = 'done'
-		@o_make_completed.completed_user_id = current_user.id
-		@o_make_completed.save
-		flash[:success] = @o_make_completed.title + " successfully completed"
+		task_completed(params[:id])
 	end
 
 	#create new todo
 	if params[:todo]
-		@o_single = Todo.new(params[:todo])
-		@o_single.save
+		create_new_todo(params[:todo])
 	else
 		@o_single = Todo.new
 	end
@@ -22,29 +17,20 @@ class TodosController < ApplicationController
 	#shared todo with other user
 	unless params[:user].blank?
 		unless params[:user][:email].blank?
-			@o_user = User.find_by_email(params[:user][:email])
-			if @o_user
-				@o_todo_share = TodoShare.new
-				@o_todo_share.share_user_id = @o_user.id
-				@o_todo_share.user_id = current_user.id
-				@o_todo_share.save
-				flash[:success_share] = 'Todo lists shared successfully to ' + @o_user.email
-			else
-				flash[:error_message] = "Email address is not exist."
-			end
+			share_todo_with_user(params[:user][:email])
 		else
 			flash[:error_message] = "Email address required."
 		end
 	end
+
+	#pending todos 	
     @o_all_pending = Todo.search_pending(params[:search], current_user.id).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+
+	#completed todos
     @o_all_completed = Todo.search_completed(params[:search], current_user.id).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
 
-    @o_all_shared = TodoShare.where(:share_user_id => current_user.id)
-	@all_shared_todos = Hash.new
-	@o_all_shared.each do |o_row|
-		@o_user_todos = Todo.where("user_id = ? AND status IS NULL", o_row.user_id)
-		@all_shared_todos[User.find(o_row.user_id).email] = @o_user_todos
-	end
+	#collaborators todos
+	collaborators_todos
 
 	#all collaborators
 	@collaborators = TodoShare.all_users(current_user.id)
@@ -108,6 +94,41 @@ class TodosController < ApplicationController
    
   private
   
+  def task_completed(id)
+	@o_make_completed = Todo.find(id)
+	@o_make_completed.status = 'done'
+	@o_make_completed.completed_user_id = current_user.id
+	@o_make_completed.save
+	flash[:success] = @o_make_completed.title + " successfully completed"
+  end
+
+  def create_new_todo(todos)
+	@o_single = Todo.new(todos)
+	@o_single.save
+  end
+
+  def share_todo_with_user(email)
+	@o_user = User.find_by_email(email)
+	if @o_user
+		@o_todo_share = TodoShare.new
+		@o_todo_share.share_user_id = @o_user.id
+		@o_todo_share.user_id = current_user.id
+		@o_todo_share.save
+		flash[:success_share] = 'Todo lists shared successfully to ' + @o_user.email
+	else
+		flash[:error_message] = "Email address is not exist."
+	end 
+  end
+
+  def collaborators_todos
+    @o_all_shared = TodoShare.where(:share_user_id => current_user.id)
+	@all_shared_todos = Hash.new
+	@o_all_shared.each do |o_row|
+		@o_user_todos = Todo.where("user_id = ? AND status IS NULL", o_row.user_id)
+		@all_shared_todos[User.find(o_row.user_id).email] = @o_user_todos
+	end 
+  end
+
   #sort column private method
   def sort_column
     Todo.column_names.include?(params[:sort]) ? params[:sort] : "created_at"

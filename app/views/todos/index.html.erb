@@ -1,14 +1,7 @@
-
 <h3><%= t("general.todos") %></h3>
 
 <%= form_tag todos_path, :method => 'get', :id => "div_update_search" do %>
-  <p>
-    <%= t("general.search") %>: <%= text_field_tag :search, params[:search] %>
-    <%#= submit_tag t("general.search"), :name => nil %>
-  </p>
+  <p><%= t("general.search") %>: <%= text_field_tag :search, params[:search] %></p>
 <% end %>
 
 <div id="div_update"><%= render 'fetchAll' %></div>
-
-
-<%#= debug(@collaborators) %>

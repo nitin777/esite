@@ -23,17 +23,14 @@
 </div>
 
 <div class="span8">
-<%= render 'pending_tasks' %>
-<%= render 'completed_tasks' %>
-<%= render 'shared_user_list' %>
-<div id="div_stop_share">
-<%= render 'collaborators' %>
-</div>
-
-
+	<%= render 'pending_tasks' %>
+	<%= render 'completed_tasks' %>
+	<%= render 'shared_user_list' %>
+	<div id="div_stop_share">
+	<%= render 'collaborators' %>
+	</div>
 	<%= link_to "Add", '#', :id => 'addlink' %> &nbsp;&nbsp; <%= link_to "Share pending todos", '#', :id => 'shared_link' %>
 
-
-<%= render 'add_todo' %>
-<%= render 'shared_list' %>
+	<%= render 'add_todo' %>
+	<%= render 'shared_list' %>
 </div>
