@@ -1,0 +1,26 @@
+<div class="editablebox" style="display:none" id="shared_list">
+
+<%= form_for(User.new, :url => add_todo_path, :remote => true) do |f| %>
+  <div class="field">
+    <%= f.label "email" %>
+    <%= f.text_field :email %>
+	<span>
+		  <% if flash[:error_message] %>
+			<%= flash[:error_message] %>
+		  <% end %>
+	</span>
+  </div>
+
+  <p><%= f.submit :value => "Share List", :name => 'save' %>
+	<%= link_to "close", "#", :id => 'close_sharedlist' %>
+</p>
+<% end %>
+<% if flash[:success_share] %>
+	<div class="successmsg">
+		<div id="notice"><%= flash[:success_share] %></div>
+	</div>
+<% end %>
+<div class="cl"></div>
+</div>
+
+<%= render 'todo_js' %>

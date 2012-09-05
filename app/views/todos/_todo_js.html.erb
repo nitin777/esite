@@ -1,0 +1,49 @@
+<% if params[:todo] %>
+	<script type="text/javascript">
+		$('#addform').show();
+	</script>
+<% end %>
+<% if params[:user] %>
+	<script type="text/javascript">
+		$('#shared_list').show();
+	</script>
+<% end %>
+<script type="text/javascript">
+    $('#addlink').click(function() {
+		$('#addform').show();
+    });
+    $('#closelink').click(function() {
+		$('#addform').hide();
+    });
+    $('#stepform1').click(function() {
+		$('#stepcontent2').hide();
+		$('#stepcontent3').hide();
+		$('#stepcontent4').hide();
+		$('#stepcontent1').show();
+    });
+    $('#stepform2').click(function() {
+		$('#stepcontent1').hide();
+		$('#stepcontent3').hide();
+		$('#stepcontent4').hide();
+		$('#stepcontent2').show();
+    });
+    $('#stepform3').click(function() {
+		$('#stepcontent1').hide();
+		$('#stepcontent2').hide();
+		$('#stepcontent4').hide();
+		$('#stepcontent3').show();
+    });
+    $('#stepform4').click(function() {
+		$('#stepcontent1').hide();
+		$('#stepcontent2').hide();
+		$('#stepcontent3').hide();
+		$('#stepcontent4').show();
+    });
+
+    $('#shared_link').click(function() {
+		$('#shared_list').show();
+    });
+    $('#close_sharedlist').click(function() {
+		$('#shared_list').hide();
+    });
+</script>

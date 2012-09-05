@@ -1,0 +1,31 @@
+<div class="editablebox">
+<h3><%= t("general.plan_and_price") %></h3>
+
+<table class="pretty" width="100%">
+  <% for o_row in @o_all %>
+    <tr width="100%">
+      <td style="padding-bottom:10px;">
+		<div style="background: #E4E4E4; box-shadow:none; font-size:13px;">
+			<div style="margin-left:10px;">
+				<strong><%= o_row.name %> </strong>
+				<div style="text-align:right;float:right;margin-right:10px;">
+					$ <%= o_row.price %>
+				</div>
+			</div>
+<hr />
+
+			<div class="cl"></div>
+	
+  <% for o_features in Feature.where(:plan_id => o_row.id) %>
+		
+			<div style="margin-left:20px;"><strong><%= o_features.name %> - <%= ((!o_features.feature_count.nil?) ? o_features.feature_count : 'Yes') %></strong></div>
+		
+  <% end %>
+
+		</td>
+    </tr>
+  <% end %>
+</table>
+
+<div class="cl"></div>
+</div>

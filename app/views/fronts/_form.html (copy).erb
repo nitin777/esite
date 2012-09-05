@@ -1,0 +1,62 @@
+<div class="editablebox">
+
+<h3><%= t("general.sign_up") %></h3>
+
+<%= form_for(@user, :url => fronts_signup_path) do |f| %>
+
+  <div class="field">
+    <%= f.label t("general.first_name") %>
+    <%= f.text_field :first_name %>
+	<span><% if @user.errors[:first_name].any? %>
+		<%= t(@user.errors[:first_name].first) %></span>
+	<% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label t("general.last_name") %>
+    <%= f.text_field :last_name %>
+	<span><% if @user.errors[:last_name].any? %>
+		<%= t(@user.errors[:last_name].first) %></span>
+	<% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label t("general.email") %>
+    <%= f.text_field :username %>
+	<span>
+		<% if @user.errors[:username].any? %>
+			<%= t(@user.errors[:username].first) %>
+		<% end %>
+	</span>
+  </div>
+
+
+
+  <div class="field">
+    <%= f.label t("general.password") %>
+    <%= f.password_field :password %>
+	<span><% if @user.errors[:password].any? %>
+		<%= t(@user.errors[:password].first) %></span>
+	<% end %>
+  </div>
+
+  <div class="field">
+      <%= f.label t("general.password_confirmation") %>
+      <%= f.password_field :password_confirmation %>
+	<span><% if @user.errors[:password_confirmation].any? %>
+		<%= t(@user.errors[:password_confirmation].first) %></span>
+	<% end %>
+    </div>
+
+<!--  <div class="field">
+    <%#= f.label t("general.contact") %>
+    <%#= f.text_field :contact %>
+  </div> -->
+
+  <div class="actions">
+    <%= f.submit t("general.sign_up")%>
+  </div>
+<% end %>
+
+<div class="cl"></div>
+</div>

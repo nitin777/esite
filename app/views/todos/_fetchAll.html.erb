@@ -1,0 +1,39 @@
+<%= hidden_field_tag :direction, params[:direction] %>
+<%= hidden_field_tag :sort, params[:sort] %>
+
+<div class="span2">
+<div class="submenuform">
+	<ul class="tab_content">
+		<li id="stepform1" class="active">
+			<%= link_to "Pending Todos:", "#", :id => "stepform1" %>
+		</li>
+		<li id="stepform2">
+			<%= link_to "completed Todos:","#", :id => "stepform2" %>
+		</li>
+		<li id="stepform3">
+			<%= link_to "Shared Other User Todos:","#", :id => "stepform3" %>
+		</li>
+		<li id="stepform4">
+			<%= link_to "Collaborators:","#", :id => "stepform4" %>
+		</li>
+
+	</ul>
+</div>
+
+</div>
+
+<div class="span8">
+<%= render 'pending_tasks' %>
+<%= render 'completed_tasks' %>
+<%= render 'shared_user_list' %>
+<div id="div_stop_share">
+<%= render 'collaborators' %>
+</div>
+
+
+	<%= link_to "Add", '#', :id => 'addlink' %> &nbsp;&nbsp; <%= link_to "Share pending todos", '#', :id => 'shared_link' %>
+
+
+<%= render 'add_todo' %>
+<%= render 'shared_list' %>
+</div>

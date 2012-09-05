@@ -1,0 +1,25 @@
+<div id="stepcontent2" style="display:none;padding: 10px 10px 10px 10px;">
+<h3>Completed Tasks:</h3>
+<table width="100%">
+  <tr>
+    <th width="20%"><%= t("title") %></th>
+	<th width="20%"><%= t("created_at") %></th>
+	<th width="20%"><%= "Completed By User" %></th>
+	<th width="10%"><%= t("actions") %></th>
+  </tr>
+  <% for o_row in @o_all_completed %>
+    <tr>
+      <td><%= o_row.title %></td>
+      <td><%= o_row.created_at.to_s(:pretty) %></td>
+      <td><%= o_row.get_user_email(o_row.completed_user_id) %></td>
+      <td> 
+		<%= link_to image_tag("edit.png", :width => "16px", :height => "16px", :title => 'edit'), edit_todo_path(o_row) %>
+		<%= link_to image_tag("delete.png", :width => "16px", :height => "16px", :title => "destroy"), o_row, :confirm => 'Are you sure to delete ?', :method => :delete %>
+		</td>
+    </tr>
+  <% end %>
+</table>
+<%= will_paginate @o_all_completed %>
+</div>
+
+<div class="cl"></div>

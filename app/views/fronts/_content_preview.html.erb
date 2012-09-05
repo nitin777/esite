@@ -1,0 +1,10 @@
+<div id="inline_demo2" style="display:none;">
+	<%= @o_single.content.html_safe %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$("a[rel^='prettyPhoto']").prettyPhoto();
+		$(".gallery:first a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'normal',theme:'light_square',slideshow:3000, autoplay_slideshow: false, social_tools:false});
+	});
+</script>

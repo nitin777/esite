@@ -1,0 +1,28 @@
+<div id="stepcontent1" style="display:block;padding: 10px 10px 10px 10px;">
+<h3>Pending Tasks:</h3>
+<table width="100%">
+  <tr>
+    <th width="20%"><%= sortable "title", t("title") %></th>
+	<th width="20%"><%= sortable "created_at", t("created_at") %></th>
+	<th width="10%"><%= t("actions") %></th>
+  </tr>
+  <% for o_row in @o_all_pending %>
+    <tr>
+      <td><%= o_row.title %></td>
+      <td><%= o_row.created_at.to_s(:pretty) %></td>
+      <td> 
+		<%= link_to image_tag("edit.png", :width => "16px", :height => "16px", :title => 'edit'), edit_todo_path(o_row) %>
+		<%= link_to image_tag("delete.png", :width => "16px", :height => "16px", :title => "destroy"), o_row, :confirm => 'Are you sure to delete ?', :method => :delete %>
+		<%= link_to "Done", make_completed_path(o_row.id), :confirm => 'Are you sure to make it completed ?', :remote => true %>
+		</td>
+    </tr>
+  <% end %>
+</table>
+<%= will_paginate @o_all_pending %>
+<% if flash[:success] %>
+	<div class="successmsg">
+		<div id="notice"><%= flash[:success] %></div>
+	</div>
+<% end %>
+</div>
+

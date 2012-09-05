@@ -1,0 +1,9 @@
+<% if !session[:user_id].nil? %>
+	<h3>
+		<%= t("general.welcome") %> <%= current_user.username %>
+	</h3>
+<% else %>
+	<div class="main-containt">
+		<div id="div_update"><%= render 'signin' %></div>
+	</div>
+<% end %>

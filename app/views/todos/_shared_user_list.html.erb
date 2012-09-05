@@ -1,0 +1,33 @@
+<div id="stepcontent3" style="display:none;padding: 10px 10px 10px 10px;">
+<h3>Shared Other User Todos:</h3>
+<table width="100%">
+  <tr>
+    <th width="20%"><%= t("title") %></th>
+	<th width="20%"><%= t("created_at") %></th>
+	<th width="10%"><%= t("actions") %></th>
+  </tr>
+  <% @all_shared_todos.each do |id, todos| %>
+    <tr>
+      <td><%= id %></td>
+    </tr>	
+    <tr>
+      <td>&nbsp;</td>
+    </tr>	
+  	<% for o_row in todos %>
+    <tr>
+      <td><%= o_row.title %></td>
+      <td><%= o_row.created_at.to_s(:pretty) %></td>
+      <td>
+		<%= link_to "Make it completed", make_completed_path(o_row.id), :confirm => 'Are you sure to make it completed ?' %>
+		</td>
+    </tr>
+	<% end %>
+    <tr>
+      <td>&nbsp;</td>
+    </tr>
+  <% end %>
+</table>
+
+</div>
+
+<div class="cl"></div>
