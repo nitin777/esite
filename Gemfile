@@ -15,14 +15,11 @@ group :production do
 	gem "pg"
 	gem "thin"
 end
-
-gem 'aws-sdk'
-gem 'webget_ruby_secure_random'
+gem 'whenever', :require => false
 gem "will_paginate", :git => "https://github.com/p7r/will_paginate.git", :branch => "rails3"
-gem "rmagick"
-gem "carrierwave"
 gem "mail"
 gem 'debugger'
+gem 'webget_ruby_secure_random'
 
 gem "bcrypt-ruby", :require => "bcrypt"
 

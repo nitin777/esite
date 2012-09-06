@@ -4,10 +4,12 @@ class UserMailer < ActionMailer::Base
   def registration_confirmation(user, body)
     @user = user
     mail(:to => "#{user.email} <#{user.email}>", :subject => "New registration", :body => body, :content_type => "text/html")
+	body_admin = "New user created with email id - " + user.email
+    mail(:to => "#{ADMIN_EMAIL} <#{ADMIN_EMAIL}>", :subject => "New registration", :body => body_admin, :content_type => "text/html")
   end
 
-  def forgot_password_confirmation(user,new_pass, body)
-    mail(:to => "#{user.username} <#{user.email}>", :subject => "Password Reset", :body => body, :content_type => "text/html")
+  def reset_password_confirmation(user, body)
+    mail(:to => "#{user.email} <#{user.email}>", :subject => "Password Reset", :body => body, :content_type => "text/html")
   end
 
 end

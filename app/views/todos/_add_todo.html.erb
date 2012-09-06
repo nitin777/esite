@@ -1,19 +1,24 @@
-<div class="editablebox" style="display:none" id="addform">
+<div class="control-group" style="display:none" id="addform">
+	<%= form_for(@o_single, :url => add_todo_path, :remote => true) do |f| %>
 
-<%= form_for(@o_single, :url => add_todo_path, :remote => true) do |f| %>
-  <div class="field">
-	<input type="hidden" name="todo[user_id]" value="<%= current_user.id %>" />
-    <%= f.label t("title") %>
-    <%= f.text_field :title %>
-	<span><% if @o_single.errors[:title].any? %>
-		<%= t('filed_required') %></span>
+		<input type="hidden" name="todo[user_id]" value="<%= current_user.id %>" />
+		<input type="hidden" name="todo[id]" value="<%= params[:id] %>" />
+		<%= f.label t("title"), :class => "control-label" %>
+		<div class="controls">
+			<%= f.text_field :title, :class => "input-xlarge" %>
+
+			<% if @o_single.errors[:title].any? %>
+				<%= t('field_required') %>
+			<% end %>
+		</div>
+
+		<div class="controls">
+			<%= f.label "Description" %>
+			<%= f.text_area :desc, :class => "input-xlarge", :rows => "20" %>
+		</div>
+
+	  <%= f.submit :value => "save", :name => 'save', :class => "btn btn-success" %>
+		<div class="btn"><%= link_to "close", "#_", :id => 'closelink' %></div>
+
 	<% end %>
-  </div>
-
-  <p><%= f.submit :value => "save", :name => 'save' %>
-	<%= link_to "close", "#", :id => 'closelink' %>
-</p>
-<% end %>
-
-<div class="cl"></div>
 </div>

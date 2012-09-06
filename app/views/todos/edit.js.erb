@@ -1,0 +1,8 @@
+$("#div_add_edit_todo").html("<%= escape_javascript(render("add_todo")) %>");
+
+$('#addform').show();
+
+$('#closelink').click(function() {
+	$('#addform').hide();
+});
+

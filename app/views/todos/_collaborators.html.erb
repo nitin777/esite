@@ -1,6 +1,11 @@
 <div id="stepcontent4" style="display:none;padding: 10px 10px 10px 10px;">
-<h3>Collaborators:</h3>
-<table width="100%">
+<legend>Collaborators:</legend>
+	<% if flash[:completed_todo] %>
+		<div class="alert alert-success">
+			<%= flash[:completed_todo] %>
+		</div>
+	<% end %>
+<table class="table table-striped table-bordered table-condensed">
   <tr>
     <th width="20%"><%= "Users" %></th>
 	<th width="20%"><%= t("created_at") %></th>
@@ -17,10 +22,5 @@
   <% end %>
 </table>
 
-<% if flash[:success] %>
-	<div class="successmsg">
-		<div id="notice"><%= flash[:success] %></div>
-	</div>
-<% end %>
 </div>
 

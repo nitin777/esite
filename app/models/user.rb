@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :email, :password, :password_confirmation
+  attr_accessible :email, :password, :password_confirmation, :token
   has_many :todos, :dependent => :destroy
   has_many :todo_shares, :dependent => :destroy  
   attr_accessor :password

@@ -1,36 +1,66 @@
 <%= hidden_field_tag :direction, params[:direction] %>
 <%= hidden_field_tag :sort, params[:sort] %>
 
+<!-- sidebar todos links-->
 <div class="span2">
-<div class="submenuform">
-	<ul class="tab_content">
-		<li id="stepform1" class="active">
-			<%= link_to "Pending Todos:", "#", :id => "stepform1" %>
-		</li>
-		<li id="stepform2">
-			<%= link_to "completed Todos:","#", :id => "stepform2" %>
-		</li>
-		<li id="stepform3">
-			<%= link_to "Shared Other User Todos:","#", :id => "stepform3" %>
-		</li>
-		<li id="stepform4">
-			<%= link_to "Collaborators:","#", :id => "stepform4" %>
-		</li>
+	<div class="submenuform">
+		<ul class="tab_content">
+			<li id="stepform1" class="active">
+				<%= link_to "Pending Todos:", "#", :id => "stepform1" %>
+			</li>
+			<li id="stepform2">
+				<%= link_to "completed Todos:","#", :id => "stepform2" %>
+			</li>
+			<li id="stepform3">
+				<%= link_to "Shared Other User Todos:","#", :id => "stepform3" %>
+			</li>
+			<li id="stepform4">
+				<%= link_to "Collaborators:","#", :id => "stepform4" %>
+			</li>
 
-	</ul>
-</div>
-
+		</ul>
+	</div>
 </div>
 
 <div class="span8">
-	<%= render 'pending_tasks' %>
-	<%= render 'completed_tasks' %>
-	<%= render 'shared_user_list' %>
-	<div id="div_stop_share">
-	<%= render 'collaborators' %>
-	</div>
-	<%= link_to "Add", '#', :id => 'addlink' %> &nbsp;&nbsp; <%= link_to "Share pending todos", '#', :id => 'shared_link' %>
+	
+	<div id="div_padding_completed_tasks">
+		<!-- pending todos -->
+		<%= render 'pending_tasks' %>
 
-	<%= render 'add_todo' %>
-	<%= render 'shared_list' %>
+		<!-- completed todos -->
+		<%= render 'completed_tasks' %>
+	</div>
+	<div id="div_shared_user_list">
+		<!-- other users shared todos -->
+		<%= render 'shared_user_list' %>
+	</div>
+
+	<!-- collaborators list -->
+	<div id="div_stop_share">
+		<%= render 'collaborators' %>
+	</div>
+
+	<%= link_to 'New todo', new_todo_path, :remote => true, :id => 'addlink' %> &nbsp;&nbsp; <%= link_to "Share pending todos", '#_', :id => 'shared_link' %>
+	<br /><br />
+
+	<% if flash[:success_todo] %>
+		<div class="alert alert-success">
+			<%= flash[:success_todo] %>
+		</div>
+	<% end %>
+
+	<!-- add new todo form -->
+	<div class="span3">
+		<div id="div_add_edit_todo"></div>
+	</div>
+	<div class="span2"></div>
+
+	<!-- shared form to other user -->
+	<div class="span3">
+		
+		<%= render 'shared_list' %>
+	</div>
 </div>
+<!-- js methods -->
+<%= render 'todo_js' %>

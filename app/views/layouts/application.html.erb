@@ -7,8 +7,7 @@
 		<%= javascript_include_tag :defaults %>
 		<%= javascript_include_tag "application" %>
 		<%= javascript_include_tag "rails.js" %>
-		<%= javascript_include_tag "common.js" %>
-		<%= javascript_include_tag "bootstrap.min.js" %>
+
 		<%= stylesheet_link_tag "bootstrap.min.css" %>	
 
 		<%= csrf_meta_tag %>
@@ -22,12 +21,13 @@
 				<div class="span10">
 					<% if current_user %>
 						Logged in as <%= current_user.email %>.
-						<%= link_to "Log out", log_out_path %>
+						<%= link_to "Log out", log_out_path %> | 
+						<%= link_to "Reset password", change_password_path %>
 					<% else %>
 						<%= link_to "Sign up", sign_up_path %> or
 						<%= link_to "log in", log_in_path %>
 					<% end %>
-					<% if flash[:notice] %><div id="notice"><%= flash[:notice] %></div><% end %>
+					<% if flash[:notice] %><div id="notice" class="alert alert-success"><%= flash[:notice] %></div><% end %>
 					<%= yield %>
 				</div>
 			</div>

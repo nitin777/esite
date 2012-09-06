@@ -1,5 +1,6 @@
 class TodosController < ApplicationController
   helper_method :sort_column, :sort_direction
+  before_filter :require_user
   #fetch all records
   def index
 	#completed todo task
@@ -22,12 +23,9 @@ class TodosController < ApplicationController
 			flash[:error_message] = "Email address required."
 		end
 	end
-
-	#pending todos 	
-    @o_all_pending = Todo.search_pending(params[:search], current_user.id).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
-
-	#completed todos
-    @o_all_completed = Todo.search_completed(params[:search], current_user.id).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+	
+    # pending and completed todos 
+	pending_completed_tasks_list(params[:search], params[:page])
 
 	#collaborators todos
 	collaborators_todos
@@ -73,38 +71,77 @@ class TodosController < ApplicationController
     end
   end
   
-  #destoy a record
-  def destroy
-    @o_single = Todo.find(params[:id])
-    @o_single.destroy
-    flash[:notice] = "successfully_destroyed"
-    redirect_to todos_url
+  #destoy a pending record
+  def destroy_todo
+	remove_todos(params[:id])
+	pending_completed_tasks_list(params[:search], params[:page])
+
   end
 
+  #destoy a completed record
+  def destroy_completed_todo
+	remove_todos(params[:id])
+	pending_completed_tasks_list(params[:search], params[:page])
+  end
 
   #destoy a record
   def stop_share_list
     @o_single = TodoShare.find(params[:id])
     @o_single.destroy
-    
+    flash[:completed_todo] = "Successfully stoped sharing list"
 	#all collaborators
 	@collaborators = TodoShare.all_users(current_user.id)
   end
 
-   
+  def make_completed
+	if params[:id]
+		task_completed(params[:id])
+	end
+	if params[:step] == 'one'
+		pending_completed_tasks_list(params[:search], params[:page])
+	else
+		collaborators_todos
+	end
+  end   
+
+
   private
-  
+  def pending_completed_tasks_list(search, pagen)
+	#pending todos 	
+    @o_all_pending = Todo.search_pending(search, current_user.id).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => pagen)
+	#completed todos
+
+    @o_all_completed = Todo.search_completed(search, current_user.id).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => pagen)
+  end
+
+  def remove_todos(id)
+    @o_single = Todo.find(id)
+    @o_single.destroy
+    flash[:completed_todo] = "successfully destroyed"
+  end
+
   def task_completed(id)
 	@o_make_completed = Todo.find(id)
 	@o_make_completed.status = 'done'
 	@o_make_completed.completed_user_id = current_user.id
 	@o_make_completed.save
-	flash[:success] = @o_make_completed.title + " successfully completed"
+	flash[:completed_todo] = @o_make_completed.title + " successfully completed"
   end
 
-  def create_new_todo(todos)
-	@o_single = Todo.new(todos)
-	@o_single.save
+  def create_new_todo(todos_param)
+
+	if !todos_param[:id].blank?
+	    @o_single = Todo.find(todos_param[:id])
+    	if @o_single.update_attributes(todos_param)
+			flash[:success_todo] = "Todo updated"
+		end
+	else
+		@o_single = Todo.new(todos_param)
+		if @o_single.save
+			flash[:success_todo] = "New todo created"
+		end
+	end
+
   end
 
   def share_todo_with_user(email)
@@ -114,7 +151,7 @@ class TodosController < ApplicationController
 		@o_todo_share.share_user_id = @o_user.id
 		@o_todo_share.user_id = current_user.id
 		@o_todo_share.save
-		flash[:success_share] = 'Todo lists shared successfully to ' + @o_user.email
+		flash[:success_todo] = 'Todo lists shared successfully with ' + @o_user.email
 	else
 		flash[:error_message] = "Email address is not exist."
 	end 

@@ -1,0 +1,7 @@
+<% if params[:step] == 'one' %>
+	$("#div_padding_completed_tasks").html("<%= escape_javascript(render("pending_tasks")) %><%= escape_javascript(render("completed_tasks")) %>");
+	$('#stepcontent1').show();
+<% else %>
+	$("#div_shared_user_list").html("<%= escape_javascript(render("shared_user_list")) %>");
+	$('#stepcontent3').show();
+<% end %>

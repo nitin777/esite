@@ -34,4 +34,6 @@ Esite::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  BASE_URL = 'http://156.esite.ntn'
+  ADMIN_EMAIL = 'admin@devtest.com'
 end
